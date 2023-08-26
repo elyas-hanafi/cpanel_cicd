@@ -35,4 +35,5 @@ jobs:
             cd /home/elyashana/public_html
             rm -rf *  # Remove old files
             cp -r ../build/. ./  # Copy the built Next.js app
+
             # Any other necessary deployment steps
