@@ -1,37 +1,32 @@
-name: CI/CD - Build and Deploy Next.js App
-
 on:
   push:
     branches:
-      - master # Change this to your main branch name
+      - main
+name: 🚀 Deploy website on push
 
 jobs:
-  build_and_deploy:
+  web-deploy:
+    name: 🎉 Deploy
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Use Node.js 16
         uses: actions/setup-node@v2
         with:
-          node-version: 18 # Change this to your desired Node.js version
+          node-version: '18'
 
-      - name: Install dependencies
-        run: npm i
+      - name: 🔨 Build Project
+        run: |
+          npm install
+          npm run build
 
-      - name: Build Next.js app
-        run: npm run build
-
-      - name: Deploy to cPanel
-        uses: appleboy/ssh-action@master
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: ${{ secrets.CPANEL_HOST }}
-          username: ${{ secrets.CPANEL_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22 # Change this if your cPanel uses a different SSH port
-          script: |
-            cd public_html
-            rm -rf *  # Remove old files
-            cp -r ../build/. ./  # Copy the built Next.js app
+          server: ${{ secrets.GIT_CPANEL_REACT_SERVER }}
+          username: ${{ secrets.GIT_CPANEL_REACT_USER }}
+          password: ${{ secrets.GIT_CPANEL_REACT_PWD }}
+          protocol: ${{ secrets.GIT_CPANEL_REACT_PROTOCOL }}
+          local-dir: ./build/
