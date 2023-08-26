@@ -1,12 +1,12 @@
-name: Deploy to cPanel
+name: CI/CD - Build and Deploy Next.js App
 
 on:
   push:
     branches:
-      - master # Change this to your main branch name
+      - main # Change this to your main branch name
 
 jobs:
-  deploy:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,10 +16,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 18 # Change this to your desired Node.js version
+          node-version: 16 # Change this to your desired Node.js version
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build Next.js app
         run: npm run build
@@ -30,10 +30,8 @@ jobs:
           host: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 2083 # Change this if your cPanel uses a different SSH port
+          port: 22 # Change this if your cPanel uses a different SSH port
           script: |
-            cd /home/elyashana/public_html
+            cd public_html
             rm -rf *  # Remove old files
             cp -r ../build/. ./  # Copy the built Next.js app
-
-            # Any other necessary deployment steps
