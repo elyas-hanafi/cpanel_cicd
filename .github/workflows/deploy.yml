@@ -32,7 +32,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22 # Change this if your cPanel uses a different SSH port
           script: |
-            cd path/to/deployment/folder
+            cd /home/elyashana/public_html
             rm -rf *  # Remove old files
-            cp -r /path/to/nextjs/app/. ./  # Copy the built Next.js app
+            cp -r ../build/. ./  # Copy the built Next.js app
             # Any other necessary deployment steps
