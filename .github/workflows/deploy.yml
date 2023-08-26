@@ -1,36 +1,3 @@
-# on:
-#   push:
-#     branches:
-#       - master
-# name: 🚀 Deploy website on push
-
-# jobs:
-#   web-deploy:
-#     name: 🎉 Deploy
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: 🚚 Get latest code
-#         uses: actions/checkout@v3
-
-#       - name: Use Node.js 18
-#         uses: actions/setup-node@v2
-#         with:
-#           node-version: '18'
-
-#       - name: 🔨 Build Project
-#         run: |
-#           npm install
-#           npm run build
-
-#       - name: 📂 Sync files
-#         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-#         with:
-#           server: ${{ secrets.GIT_CPANEL_REACT_SERVER }}
-#           username: ${{ secrets.GIT_CPANEL_REACT_USER }}
-#           password: ${{ secrets.GIT_CPANEL_REACT_PWD }}
-#           protocol: ${{ secrets.GIT_CPANEL_REACT_PROTOCOL }}
-#           local-dir: ./build/
-
 on:
   push:
     branches:
@@ -43,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Get latest code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Use Node.js 18
         uses: actions/setup-node@v2
@@ -55,10 +22,6 @@ jobs:
           npm install
           npm run build
 
-      - name: 📂 Delete old files on server
-        run: |
-          curl -Q "DELE public_html/*" --user "${{ secrets.GIT_CPANEL_REACT_USER }}:${{ secrets.GIT_CPANEL_REACT_PWD }}" "${{ secrets.GIT_CPANEL_REACT_PROTOCOL }}://${{ secrets.GIT_CPANEL_REACT_SERVER }}"
-
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
@@ -67,3 +30,39 @@ jobs:
           password: ${{ secrets.GIT_CPANEL_REACT_PWD }}
           protocol: ${{ secrets.GIT_CPANEL_REACT_PROTOCOL }}
           local-dir: ./build/
+# on:
+#   push:
+#     branches:
+#       - master
+# name: 🚀 Deploy website on push
+
+# jobs:
+#   web-deploy:
+#     name: 🎉 Deploy
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: 🚚 Get latest code
+#         uses: actions/checkout@v2
+
+#       - name: Use Node.js 18
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '18'
+
+#       - name: 🔨 Build Project
+#         run: |
+#           npm install
+#           npm run build
+
+#       - name: 📂 Delete old files on server
+#         run: |
+#           curl -Q "DELE public_html/*" --user "${{ secrets.GIT_CPANEL_REACT_USER }}:${{ secrets.GIT_CPANEL_REACT_PWD }}" "${{ secrets.GIT_CPANEL_REACT_PROTOCOL }}://${{ secrets.GIT_CPANEL_REACT_SERVER }}"
+
+#       - name: 📂 Sync files
+#         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+#         with:
+#           server: ${{ secrets.GIT_CPANEL_REACT_SERVER }}
+#           username: ${{ secrets.GIT_CPANEL_REACT_USER }}
+#           password: ${{ secrets.GIT_CPANEL_REACT_PWD }}
+#           protocol: ${{ secrets.GIT_CPANEL_REACT_PROTOCOL }}
+#           local-dir: ./build/
