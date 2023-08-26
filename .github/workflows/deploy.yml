@@ -1,3 +1,36 @@
+# on:
+#   push:
+#     branches:
+#       - master
+# name: 🚀 Deploy website on push
+
+# jobs:
+#   web-deploy:
+#     name: 🎉 Deploy
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: 🚚 Get latest code
+#         uses: actions/checkout@v3
+
+#       - name: Use Node.js 18
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '18'
+
+#       - name: 🔨 Build Project
+#         run: |
+#           npm install
+#           npm run build
+
+#       - name: 📂 Sync files
+#         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+#         with:
+#           server: ${{ secrets.GIT_CPANEL_REACT_SERVER }}
+#           username: ${{ secrets.GIT_CPANEL_REACT_USER }}
+#           password: ${{ secrets.GIT_CPANEL_REACT_PWD }}
+#           protocol: ${{ secrets.GIT_CPANEL_REACT_PROTOCOL }}
+#           local-dir: ./build/
+
 on:
   push:
     branches:
@@ -10,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Get latest code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Use Node.js 18
         uses: actions/setup-node@v2
@@ -21,6 +54,17 @@ jobs:
         run: |
           npm install
           npm run build
+
+      - name: 📂 Clean old files
+        run: |
+          # Connect to the FTP server and delete all old files
+          echo "open ${{ secrets.GIT_CPANEL_REACT_SERVER }}" > ftp_commands.txt
+          echo "user ${{ secrets.GIT_CPANEL_REACT_USER }} ${{ secrets.GIT_CPANEL_REACT_PWD }}" >> ftp_commands.txt
+          echo "cd /path/to/old/files" >> ftp_commands.txt
+          echo "mls -1" >> ftp_commands.txt # List all files one per line
+          echo "mdelete *" >> ftp_commands.txt # Delete all files
+          echo "bye" >> ftp_commands.txt
+          ftp -inv < ftp_commands.txt
 
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
