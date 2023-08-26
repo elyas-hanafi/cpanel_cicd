@@ -60,7 +60,7 @@ jobs:
           # Connect to the FTP server and delete all old files
           echo "open ${{ secrets.GIT_CPANEL_REACT_SERVER }}" > ftp_commands.txt
           echo "user ${{ secrets.GIT_CPANEL_REACT_USER }} ${{ secrets.GIT_CPANEL_REACT_PWD }}" >> ftp_commands.txt
-          echo "cd /path/to/old/files" >> ftp_commands.txt
+          echo "cd /home/elyashan/public_html" >> ftp_commands.txt
           echo "mls -1" >> ftp_commands.txt # List all files one per line
           echo "mdelete *" >> ftp_commands.txt # Delete all files
           echo "bye" >> ftp_commands.txt
