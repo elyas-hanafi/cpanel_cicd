@@ -30,7 +30,7 @@ jobs:
           host: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22 # Change this if your cPanel uses a different SSH port
+          port: 2083 # Change this if your cPanel uses a different SSH port
           script: |
             cd /home/elyashana/public_html
             rm -rf *  # Remove old files
