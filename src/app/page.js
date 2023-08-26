@@ -6,7 +6,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
         <p style={{ color: 'red' }}>
-          Get started by editing&nbsp;
+          Congrats everyThink Is oKK&nbsp;
           <code className={styles.code}>src/app/page.js</code>
         </p>
         <div>
