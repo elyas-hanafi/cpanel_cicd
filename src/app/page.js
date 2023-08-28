@@ -6,7 +6,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
         <p style={{ color: 'red' }}>
-          Congrats everyThink Is oKK&nbsp;
+          Cpanel CICD DEV By Elyas&nbsp;
           <code className={styles.code}>src/app/page.js</code>
         </p>
         <div>
